@@ -23,7 +23,3 @@ jobs:
       run: bash qa/detect-common-errors.sh
     - name: Run Detect dead code 
       run:  bash qa/detect-dead-code.sh
-    - name: Run Cyclomatic Complexity Check
-      run: bash qa/measure-cyclomatic-complexity.sh --fail-on-error
-    - name: Run Maintainablity index Check
-      run: bash qa/measure-maintainability-index.sh --fail-on-error
