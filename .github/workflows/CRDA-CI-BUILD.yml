@@ -41,3 +41,20 @@ jobs:
         run: echo ${{ secrets.CR_PAT }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
       - name: Push Image
         run: docker push ${{env.REGISTRY}}/${{env.ORGANIZATION}}/${{env.REPOSITORY}}/${{env.FULL_NAME}}:${{env.DEFAULT_TAG}}
+      - name: Notify developer
+        uses: harupy/comment-on-pr@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.CR_PAT }}
+        with:
+          filename: comment-template.md
+
+      - name: Make a Pull request comment
+        uses: mshick/add-pr-comment@v1
+        with: 
+          message: |
+           @${{ github.event.pull_request.user.login }} your image is avaliablle in the registry:
+           ``` docker pull ghcr.io/practice-fabric8-analytics/fabric8-analytics-server/bayesian-bayesian-api:latest ```
+          repo-token: ${{ secrets.CR_PAT }}
+          repo-token-user-login: 'github-actions[bot]'
+          allow-repeats: true 
+        
