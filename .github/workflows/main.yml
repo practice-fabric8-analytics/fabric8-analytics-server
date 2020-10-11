@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: CRDA-CI-Build-$GITHUB_REPOSITORY
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
@@ -12,6 +12,8 @@ env:
   REGISTRY: ghcr.io
   REPOSITORY: openshiftio/bayesian-bayesian-api
   DEFAULT_TAG: latest
+  FULL_NAME: ghcr.io/openshiftio/bayesian-bayesian-api
+  TESTS_IMAGE: server-tests
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -33,8 +35,8 @@ jobs:
       - name: Run Test's 
         run: bash ./qa/runtest.sh
       - name: Tag Image
-        run: docker tag $(env.REGISTRY)/$(env.REPOSITORY):$(env.DEFAULT_TAG) $(TESTS_IMAGE):$(env.DEFAULT_TAG)
+        run: docker tag ${{env.REGISTRY}}/${{env.REPOSITORY}}:${{env.DEFAULT_TAG}} ${{env.TESTS_IMAGE}}:${{env.DEFAULT_TAG}}
       - name: Registry Login
         run: echo ${{ secrets.CR_PAT }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
       - name: Push Image
-        run: docker push $(env.REGISTRY)/$(env.REPOSITORY):$(env.DEFAULT_TAG)
+        run: docker push ${{env.REGISTRY}}/${{env.REPOSITORY}}:${{env.DEFAULT_TAG}}
