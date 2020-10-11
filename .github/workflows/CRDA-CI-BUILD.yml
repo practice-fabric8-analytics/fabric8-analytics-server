@@ -10,10 +10,11 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  REPOSITORY: openshiftio/bayesian-bayesian-api
+  REPOSITORY: fabric8-analytics-server
   DEFAULT_TAG: latest
-  FULL_NAME: ghcr.io/openshiftio/bayesian-bayesian-api
+  FULL_NAME: bayesian-bayesian-api
   TESTS_IMAGE: server-tests
+  ORGANIZATION: practice-fabric8-analytics
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -35,8 +36,8 @@ jobs:
       - name: Run Test's 
         run: bash ./qa/runtest.sh
       - name: Tag Image
-        run: docker tag ${{env.REGISTRY}}/${{env.REPOSITORY}}:${{env.DEFAULT_TAG}} ${{env.TESTS_IMAGE}}:${{env.DEFAULT_TAG}}
+        run: docker tag ${{env.TESTS_IMAGE}}:${{env.DEFAULT_TAG}} ${{env.REGISTRY}}/${{env.ORGANIZATION}}/${{env.REPOSITORY}}/${{env.FULL_NAME}}:${{env.DEFAULT_TAG}}
       - name: Registry Login
         run: echo ${{ secrets.CR_PAT }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
       - name: Push Image
-        run: docker push ${{env.REGISTRY}}/${{env.REPOSITORY}}:${{env.DEFAULT_TAG}}
+        run: docker push ${{env.REGISTRY}}/${{env.ORGANIZATION}}/${{env.REPOSITORY}}/${{env.FULL_NAME}}:${{env.DEFAULT_TAG}}
