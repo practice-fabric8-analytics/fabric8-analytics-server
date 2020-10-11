@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CRDA-CI-Build-$GITHUB_REPOSITORY
+name: CRDA-CI-Build
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
@@ -9,7 +9,7 @@ on:
     branches: [ master ]
 
 env:
-  REGISTRY: ghcr.io
+  REGISTRY: docker.pkg.github.com
   REPOSITORY: openshiftio/bayesian-bayesian-api
   DEFAULT_TAG: latest
   FULL_NAME: ghcr.io/openshiftio/bayesian-bayesian-api
