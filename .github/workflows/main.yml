@@ -8,6 +8,11 @@ on:
   pull_request:
     branches: [ master ]
 
+env:
+  REGISTRY: ghcr.io
+  REPOSITORY: openshiftio/bayesian-bayesian-api
+  DEFAULT_TAG: latest
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -27,3 +32,9 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Run Test's 
         run: bash ./qa/runtest.sh
+      - name: Tag Image
+        run: docker tag $(env.REGISTRY)/$(env.REPOSITORY):$(env.DEFAULT_TAG) $(TESTS_IMAGE):$(env.DEFAULT_TAG)
+      - name: Registry Login
+        run: echo ${{ secrets.CR_PAT }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+      - name: Push Image
+        run: docker push $(env.REGISTRY)/$(env.REPOSITORY):$(env.DEFAULT_TAG)
