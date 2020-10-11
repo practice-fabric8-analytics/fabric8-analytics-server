@@ -9,7 +9,7 @@ on:
     branches: [ master ]
 
 env:
-  REGISTRY: docker.pkg.github.com
+  REGISTRY: ghcr.io
   REPOSITORY: openshiftio/bayesian-bayesian-api
   DEFAULT_TAG: latest
   FULL_NAME: ghcr.io/openshiftio/bayesian-bayesian-api
