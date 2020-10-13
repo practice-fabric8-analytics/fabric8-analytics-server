@@ -9,7 +9,7 @@ on:
     branches: [ master ]
 
 env:
-  REGISTRY: ghcr.io
+  REGISTRY: docker.pkg.github.com #ghcr.io
   REPOSITORY: fabric8-analytics-server
   DEFAULT_TAG: latest
   FULL_NAME: bayesian-bayesian-api
@@ -37,7 +37,7 @@ jobs:
       - name: Login to Github Container Registry
         uses: docker/login-action@v1
         with:
-          registry: ghcr.io
+          registry: docker.pkg.github.com
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
       
