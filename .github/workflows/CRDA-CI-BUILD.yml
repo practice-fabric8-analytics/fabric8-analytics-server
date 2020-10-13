@@ -55,9 +55,10 @@ jobs:
         with:
           context: .
           file: Dockerfile
-          push: true
+          push: false
           no-cache: true
           allow: network.host
+          load: true
           secrets: |
             GIT_AUTH_TOKEN=${{ secrets.CR_PAT }}
           tags: ghcr.io/practice-fabric8-analytics/fabric8-analytics-server/bayesian-bayesian-api:latest
