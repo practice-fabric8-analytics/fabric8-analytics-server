@@ -30,17 +30,24 @@ jobs:
       - name: Run Test's 
         run: bash ./qa/runtest.sh
       # Runs a single command using the runners shell
-      - name: Build Image
-        run: make docker-build-tests
+      - name: Login to Github Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.CR_PAT }}
+      
+      #- name: Build Image
+      #run: make docker-build-tests
 
       # Runs a set of commands using the runners shell
      
       - name: Tag Image
         run: docker tag ${{env.TESTS_IMAGE}}:${{env.DEFAULT_TAG}} ${{env.REGISTRY}}/${{env.ORGANIZATION}}/${{env.REPOSITORY}}/${{env.FULL_NAME}}:${{env.DEFAULT_TAG}}
-      - name: Registry Login
-        run: echo ${{ secrets.CR_PAT }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
-      - name: Push Image
-        run: docker push ${{env.REGISTRY}}/${{env.ORGANIZATION}}/${{env.REPOSITORY}}/${{env.FULL_NAME}}:${{env.DEFAULT_TAG}}
+      #- name: Registry Login
+      #  run: echo ${{ secrets.CR_PAT }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
+      #- name: Push Image
+      #  run: docker push ${{env.REGISTRY}}/${{env.ORGANIZATION}}/${{env.REPOSITORY}}/${{env.FULL_NAME}}:${{env.DEFAULT_TAG}}
       - name: Make a Pull request comment - Notify Developer
         uses: mshick/add-pr-comment@v1
         with: 
