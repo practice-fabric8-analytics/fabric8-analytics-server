@@ -72,7 +72,7 @@ jobs:
         with: 
           message: |
            @${{ github.event.pull_request.user.login }} your image is avaliablle in the registry:
-           ``` docker pull ghcr.io/practice-fabric8-analytics/fabric8-analytics-server/bayesian-bayesian-api:latest ```
+           ``` docker pull docker.pkg.github.com/practice-fabric8-analytics/fabric8-analytics-server/bayesian-bayesian-api:latest ```
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           repo-token-user-login: 'github-actions[bot]'
           allow-repeats: true 
