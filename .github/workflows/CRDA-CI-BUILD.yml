@@ -27,14 +27,14 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-
+      - name: Run Test's 
+        run: bash ./qa/runtest.sh
       # Runs a single command using the runners shell
-      - name: Test
+      - name: Build Image
         run: make docker-build-tests
 
       # Runs a set of commands using the runners shell
-      - name: Run Test's 
-        run: bash ./qa/runtest.sh
+     
       - name: Tag Image
         run: docker tag ${{env.TESTS_IMAGE}}:${{env.DEFAULT_TAG}} ${{env.REGISTRY}}/${{env.ORGANIZATION}}/${{env.REPOSITORY}}/${{env.FULL_NAME}}:${{env.DEFAULT_TAG}}
       - name: Registry Login
