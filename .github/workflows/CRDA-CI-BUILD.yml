@@ -50,7 +50,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./Dockerfile.tests
+          file: Dockerfile.tests
           push: true
           tags: ghcr.io/practice-fabric8-analytics/fabric8-analytics-server/bayesian-bayesian-api:latest
           
