@@ -6,6 +6,9 @@ jobs:
   slashCommandDispatch:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: +refs/pull/${{ github.event.issue.number }}/merge
       - name: Slash Command Dispatch
         uses: peter-evans/slash-command-dispatch@v2
         with:
@@ -18,4 +21,6 @@ jobs:
           registry: ghcr.io
           username: ${{ github.ACTOR }}
           password: ${{ secrets.CR_PAT }}
+      
+        
         
