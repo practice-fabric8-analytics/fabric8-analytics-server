@@ -37,5 +37,14 @@ jobs:
         run: |
           docker tag ${{env.TESTS_IMAGE}}:${{env.DEFAULT_TAG}} ${{env.REGISTRY}}/${{env.ORGANIZATION}}/${{REPOSITORY}}/${{env.FULL_NAME}}:${{env.DEFAULT_TAG}};
           docker push ${{env.REGISTRY}}/${{env.ORGANIZATION}}/${{REPOSITORY}}/${{env.FULL_NAME}}:${{env.DEFAULT_TAG}};
+      - name: Make a Pull request comment - Notify Developer
+        uses: mshick/add-pr-comment@v1
+        with: 
+          message: |
+           @${{ github.event.issue.pull_request.user.login }} your image is avaliablle in the registry:
+           ``` docker pull quay.io/bayesian-bayesian-api:latest ```
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token-user-login: 'github-actions[bot]'
+          allow-repeats: true 
         
         
