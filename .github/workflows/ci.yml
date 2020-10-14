@@ -12,4 +12,6 @@ jobs:
           token: ${{ secrets.CR_PAT }}
           commands: |
             build-image
+      - name: Build
+        run: docker login quay.io -u ${{ secrets.QUAY_USERNAME }} --password ${{ secrets.QUAY_PASSWORD }}
         
