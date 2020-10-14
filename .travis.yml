@@ -1,4 +1,5 @@
 language: python
 os: linux
 python: 3.6
+install: pip install pycodestyle
 script: bash qa/run-linter.sh
