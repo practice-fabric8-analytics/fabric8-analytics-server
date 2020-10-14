@@ -9,7 +9,7 @@ on:
     branches: [ master ]
 
 env:
-  REGISTRY: docker.pkg.github.com #ghcr.io
+  REGISTRY: quay.io #docker.pkg.github.com #ghcr.io
   REPOSITORY: fabric8-analytics-server
   DEFAULT_TAG: latest
   FULL_NAME: bayesian-bayesian-api
@@ -35,7 +35,7 @@ jobs:
       #  with:
       #    install: true
       - name: Docker login
-        run:  echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u sawood14012 --password-stdin 
+        run:  echo ${{ secrets.QUAY_PASSWORD }} | docker login quay.io -u ${{ secrets.QUAY_USERNAME }} --password-stdin 
       #- name: Login to Github Container Registry
       #  uses: docker/login-action@v1
       #  with:
@@ -50,7 +50,7 @@ jobs:
       - name: Run Test's 
         run: bash ./qa/runtest.sh
       - name: Tag Image
-        run: docker tag ${{env.TESTS_IMAGE}}:${{env.DEFAULT_TAG}} ${{env.REGISTRY}}/${{env.ORGANIZATION}}/${{env.REPOSITORY}}/${{env.FULL_NAME}}:${{env.DEFAULT_TAG}}
+        run: docker tag ${{env.TESTS_IMAGE}}:${{env.DEFAULT_TAG}} ${{env.REGISTRY}}/${{env.FULL_NAME}}:${{env.DEFAULT_TAG}}
       #- name: Build and Push
       #  uses: docker/build-push-action@v2
       #  with:
@@ -68,13 +68,13 @@ jobs:
       #- name: Registry Login
       #  run: echo ${{ secrets.CR_PAT }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
       - name: Push Image
-        run: docker push ${{env.REGISTRY}}/${{env.ORGANIZATION}}/${{env.REPOSITORY}}/${{env.FULL_NAME}}:${{env.DEFAULT_TAG}}
+        run: docker push ${{env.REGISTRY}}/${{env.FULL_NAME}}:${{env.DEFAULT_TAG}}
       - name: Make a Pull request comment - Notify Developer
         uses: mshick/add-pr-comment@v1
         with: 
           message: |
            @${{ github.event.pull_request.user.login }} your image is avaliablle in the registry:
-           ``` docker pull docker.pkg.github.com/practice-fabric8-analytics/fabric8-analytics-server/bayesian-bayesian-api:latest ```
+           ``` docker pull quay.io/bayesian-bayesian-api:latest ```
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           repo-token-user-login: 'github-actions[bot]'
           allow-repeats: true 
