@@ -34,12 +34,14 @@ jobs:
       #  id: buildx
       #  with:
       #    install: true
-      - name: Login to Github Container Registry
-        uses: docker/login-action@v1
-        with:
-          registry: docker.pkg.github.com
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.CR_PAT }}
+      - name: Docker login
+        run:  echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u sawood14012 --password-stdin 
+      #- name: Login to Github Container Registry
+      #  uses: docker/login-action@v1
+      #  with:
+      #    registry: docker.pkg.github.com
+      #    username: ${{ github.repository_owner }}
+      #    password: ${{ secrets.CR_PAT }}
       
       #- name: Build Image
       #run: make docker-build-tests
