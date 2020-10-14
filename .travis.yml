@@ -1,5 +1,12 @@
 language: python
 os: linux
 python: 3.6
-install: pip install pycodestyle
-script: bash qa/run-linter.sh
+jobs:
+  include:
+    - stage: Run Linter
+      install: pip install pycodestyle
+      script: bash qa/run-linter.sh
+    - stage: Run PyDocstyle
+      install: pip install pycodestyle
+      script: bash qa/check-docstyle.sh
+
