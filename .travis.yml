@@ -1,0 +1,8 @@
+language: python
+jobs:
+  include:
+    - name: "Linter"
+      python: 3.6
+      os: linux
+
+script: echo "hello"
