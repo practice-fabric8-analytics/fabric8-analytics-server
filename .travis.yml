@@ -1,14 +1,15 @@
-language: python
 os: linux
 services:
   - docker
 jobs:
   include:
     - name: Run Linter
+      language: python
       python: 3.6
       install: pip install pycodestyle
       script: bash qa/detect-common-errors.sh && bash qa/detect-dead-code.sh && bash qa/run-linter.sh;
     - name: Run PyDocstyle
+      language: python
       python: 3.6
       install: pip install pycodestyle
       script: bash qa/check-docstyle.sh
