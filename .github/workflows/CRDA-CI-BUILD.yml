@@ -35,7 +35,7 @@ jobs:
       #  with:
       #    install: true
       - name: Docker login
-        run:  echo ${{ secrets.PUSH }} | docker login docker.pkg.github.com -u sawood14012 --password-stdin 
+        run:  echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u sawood14012 --password-stdin 
       #- name: Login to Github Container Registry
       #  uses: docker/login-action@v1
       #  with:
