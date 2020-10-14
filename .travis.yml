@@ -3,10 +3,10 @@ os: linux
 python: 3.6
 jobs:
   include:
-    - stage: Run Linter
+    - name: Run Linter
       install: pip install pycodestyle
       script: bash qa/detect-common-errors.sh && bash qa/detect-dead-code.sh && bash qa/run-linter.sh;
-    - stage: Run PyDocstyle
+    - name: Run PyDocstyle
       install: pip install pycodestyle
       script: bash qa/check-docstyle.sh
 
