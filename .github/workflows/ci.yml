@@ -15,6 +15,18 @@ jobs:
   slashCommandDispatch:
     runs-on: ubuntu-latest
     steps:
+      - name: send comment 
+        if: steps.check.outputs.triggered == 'true'
+        env:
+          URL: ${{ github.event.issue.comments_url }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl \
+            -X POST \
+            $URL \
+            -H "Content-Type: application/json" \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            --data '{ "body": ":test_tube: [CI has Started Image Build]( https://github.com/'"$GITHUB_REPOSITORY"'/actions/runs/'"$GITHUB_RUN_ID"')" }'
       - uses: actions/checkout@v2
       - run: |
           git fetch origin +refs/pull/${{ github.event.issue.number }}/merge
@@ -37,14 +49,32 @@ jobs:
         run: |
           docker tag ${{env.TESTS_IMAGE}}:${{env.DEFAULT_TAG}} ${{env.REGISTRY}}/${{env.ORGANIZATION}}/${{env.REPOSITORY}}/${{env.FULL_NAME}}:${{env.DEFAULT_TAG}};
           docker push ${{env.REGISTRY}}/${{env.ORGANIZATION}}/${{env.REPOSITORY}}/${{env.FULL_NAME}}:${{env.DEFAULT_TAG}};
-      - name: Make a Pull request comment - Notify Developer
-        uses: mshick/add-pr-comment@v1
-        with: 
-          message: |
-           @${{ github.event.issue.pull_request.user.login }} your image is avaliablle in the registry:
-           ``` docker pull quay.io/bayesian-bayesian-api:latest ```
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          repo-token-user-login: 'github-actions[bot]'
-          allow-repeats: true 
+      - name: Create success comment
+        if:  steps.check.outputs.triggered == 'true' &&  success()
+
+        env:
+          URL: ${{ github.event.issue.comments_url }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl \
+            -X POST \
+            $URL \
+            -H "Content-Type: application/json" \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            --data '{ "body": ":v: [Image Build Successfull]( https://github.com/'"$GITHUB_REPOSITORY"'/actions/runs/'"$GITHUB_RUN_ID"') Avaliable at: ```ghcr.io/practice-fabric8-analytics/fabric8-analytics-server/bayesian-bayesian-api:latest``` " }'    
+
+      - name: Create fail comment
+        if:  steps.check.outputs.triggered == 'true' && failure()
+
+        env:
+          URL: ${{ github.event.issue.comments_url }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl \
+            -X POST \
+            $URL \
+            -H "Content-Type: application/json" \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            --data '{ "body": ":facepalm: [Build and Push Image Failed]( https://github.com/'"$GITHUB_REPOSITORY"'/actions/runs/'"$GITHUB_RUN_ID"')" }'
         
         
