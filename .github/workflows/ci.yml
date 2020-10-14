@@ -35,8 +35,8 @@ jobs:
         run: bash qa/runtest.sh 
       - name: Tag and Push
         run: |
-          docker tag ${{env.TESTS_IMAGE}}:${{env.DEFAULT_TAG}} ${{env.REGISTRY}}/${{env.ORGANIZATION}}/${{REPOSITORY}}/${{env.FULL_NAME}}:${{env.DEFAULT_TAG}};
-          docker push ${{env.REGISTRY}}/${{env.ORGANIZATION}}/${{REPOSITORY}}/${{env.FULL_NAME}}:${{env.DEFAULT_TAG}};
+          docker tag ${{env.TESTS_IMAGE}}:${{env.DEFAULT_TAG}} ${{env.REGISTRY}}/${{env.ORGANIZATION}}/${{env.REPOSITORY}}/${{env.FULL_NAME}}:${{env.DEFAULT_TAG}};
+          docker push ${{env.REGISTRY}}/${{env.ORGANIZATION}}/${{env.REPOSITORY}}/${{env.FULL_NAME}}:${{env.DEFAULT_TAG}};
       - name: Make a Pull request comment - Notify Developer
         uses: mshick/add-pr-comment@v1
         with: 
