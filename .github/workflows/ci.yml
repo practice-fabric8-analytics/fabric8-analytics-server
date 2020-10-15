@@ -63,7 +63,7 @@ jobs:
             $URL \
             -H "Content-Type: application/json" \
             -H "Authorization: token $GITHUB_TOKEN" \
-            --data '{ "body": ":v: [Image Build Successfull]( https://github.com/'"$GITHUB_REPOSITORY"'/actions/runs/'"$GITHUB_RUN_ID"') @$GITHUB_ACTOR, Avaliable at: ```ghcr.io/practice-fabric8-analytics/fabric8-analytics-server/bayesian-bayesian-api:latest``` " }'    
+            --data '{ "body": ":v: [Image Build Successfull]( https://github.com/'"$GITHUB_REPOSITORY"'/actions/runs/'"$GITHUB_RUN_ID"') '"@$GITHUB_ACTOR"', Avaliable at: ```ghcr.io/practice-fabric8-analytics/fabric8-analytics-server/bayesian-bayesian-api:latest``` " }'    
 
       - name: Create fail comment
         if: failure()
