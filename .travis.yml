@@ -15,6 +15,6 @@ jobs:
       script: bash qa/check-docstyle.sh
     - stage: Build and Test 
       script: bash qa/runtest.sh 
-    - stage: Docker Build
-      script: docker build --no-cache -t ghcr.io/fabric8-analytics-server:latest -f Docerfile . 
+    - name: Docker Build
+      script: docker build --no-cache -t ghcr.io/fabric8-analytics-server:latest -f Dockerfile . 
 
