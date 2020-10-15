@@ -46,11 +46,11 @@ jobs:
           password: ${{ secrets.CR_PAT }}
       - name: Build image
         run: bash qa/runtest.sh 
+      - name: Build Image
+        run:   docker build --no-cache -t ${{env.REGISTRY}}/${{env.ORGANIZATION}}/${{env.REPOSITORY}}/${{env.FULL_NAME}}:${{env.DEFAULT_TAG}} -f Dockerfile .
       - name: Tag and Push
-        run: |
-          docker tag ${{env.TESTS_IMAGE}}:${{env.DEFAULT_TAG}} ${{env.REGISTRY}}/${{env.ORGANIZATION}}/${{env.REPOSITORY}}/${{env.FULL_NAME}}:${{env.DEFAULT_TAG}};
-          docker push ${{env.REGISTRY}}/${{env.ORGANIZATION}}/${{env.REPOSITORY}}/${{env.FULL_NAME}}:${{env.DEFAULT_TAG}};
-      - name: Create success comment
+        run: docker push ${{env.REGISTRY}}/${{env.ORGANIZATION}}/${{env.REPOSITORY}}/${{env.FULL_NAME}}:${{env.DEFAULT_TAG}}
+      - name: Create success comment #docker tag ${{env.TESTS_IMAGE}}:${{env.DEFAULT_TAG}} ${{env.REGISTRY}}/${{env.ORGANIZATION}}/${{env.REPOSITORY}}/${{env.FULL_NAME}}:${{env.DEFAULT_TAG}};
         if: success()
 
         env:
