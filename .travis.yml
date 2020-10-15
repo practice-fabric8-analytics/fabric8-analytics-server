@@ -16,5 +16,5 @@ jobs:
     - stage: Build and Test 
       script: bash qa/runtest.sh 
     - stage: Docker Build
-      script: docker build --no-cache -t ghcr.io/fabric8-analytics-server:latest -f Docerfile .
+      script: docker build --no-cache -t ghcr.io/fabric8-analytics-server:latest -f Docerfile . 
 
