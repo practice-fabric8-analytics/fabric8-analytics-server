@@ -6,7 +6,7 @@ on:
 env:
   REGISTRY:  ghcr.io
   REPOSITORY: fabric8-analytics-server
-  DEFAULT_TAG: latest
+  DEFAULT_TAG: ${{ github.event.issue.number }}
   FULL_NAME: bayesian-bayesian-api
   TESTS_IMAGE: server-tests
   ORGANIZATION: fabric8-analytics
@@ -27,7 +27,7 @@ jobs:
           commands: |
             build-image
       - name: send comment 
-        #if: steps.check.outputs.triggered == 'true'
+      
         env:
           URL: ${{ github.event.issue.comments_url }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -57,13 +57,14 @@ jobs:
           URL: ${{ github.event.issue.comments_url }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           AUTHOR: ${{ github.ACTOR }}
+          IMAGE_URL: ${{env.REGISTRY}}/${{env.ORGANIZATION}}/${{env.REPOSITORY}}/${{env.FULL_NAME}}:${{env.DEFAULT_TAG}}
         run: |
           curl \
             -X POST \
             $URL \
             -H "Content-Type: application/json" \
             -H "Authorization: token $GITHUB_TOKEN" \
-            --data '{ "body": ":v: [Image Build Successfull]( https://github.com/'"$GITHUB_REPOSITORY"'/actions/runs/'"$GITHUB_RUN_ID"') '"@$GITHUB_ACTOR"', Avaliable at: ```ghcr.io/practice-fabric8-analytics/fabric8-analytics-server/bayesian-bayesian-api:latest``` " }'    
+            --data '{ "body": ":v: [Image Build Successfull]( https://github.com/'"$GITHUB_REPOSITORY"'/actions/runs/'"$GITHUB_RUN_ID"') '"@$GITHUB_ACTOR"', Avaliable at: ```'"$IMAGE_URL"'``` " }'    
 
       - name: Create fail comment
         if: failure()
