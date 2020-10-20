@@ -9,7 +9,7 @@ env:
   DEFAULT_TAG: ${{ github.event.issue.number }}
   FULL_NAME: bayesian-bayesian-api
   TESTS_IMAGE: server-tests
-  ORGANIZATION: fabric8-analytics
+  ORGANIZATION: practice-fabric8-analytics
 
 jobs:
   Build-push-image:
