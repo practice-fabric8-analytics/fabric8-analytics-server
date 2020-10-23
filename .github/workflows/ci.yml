@@ -23,7 +23,7 @@ jobs:
         uses: peter-evans/slash-command-dispatch@v2
         id: check
         with:
-          token: ${{ secrets.CR_PAT }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           commands: |
             build-image
       - name: send comment 
