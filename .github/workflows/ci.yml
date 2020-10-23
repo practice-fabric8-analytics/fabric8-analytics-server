@@ -5,11 +5,11 @@ on:
 
 env:
   REGISTRY:  ghcr.io
-  REPOSITORY: fabric8-analytics-server
+  REPOSITORY: ${{ github.repository }}
   DEFAULT_TAG: ${{ github.event.issue.number }}
   FULL_NAME: bayesian-bayesian-api
   TESTS_IMAGE: server-tests
-  ORGANIZATION: practice-fabric8-analytics
+  #ORGANIZATION: practice-fabric8-analytics
 
 jobs:
   Build-push-image:
@@ -47,9 +47,9 @@ jobs:
       - name: Run Test
         run: bash qa/runtest.sh 
       - name: Build Image
-        run:   docker build --no-cache -t ${{env.REGISTRY}}/${{env.ORGANIZATION}}/${{env.REPOSITORY}}/${{env.FULL_NAME}}:${{env.DEFAULT_TAG}} -f Dockerfile .
+        run:   docker build --no-cache -t ${{env.REGISTRY}}/${{env.REPOSITORY}}/${{env.FULL_NAME}}:${{env.DEFAULT_TAG}} -f Dockerfile .
       - name: Push Image
-        run: docker push ${{env.REGISTRY}}/${{env.ORGANIZATION}}/${{env.REPOSITORY}}/${{env.FULL_NAME}}:${{env.DEFAULT_TAG}}
+        run: docker push ${{env.REGISTRY}}/${{env.REPOSITORY}}/${{env.FULL_NAME}}:${{env.DEFAULT_TAG}}
       - name: Create success comment #docker tag ${{env.TESTS_IMAGE}}:${{env.DEFAULT_TAG}} ${{env.REGISTRY}}/${{env.ORGANIZATION}}/${{env.REPOSITORY}}/${{env.FULL_NAME}}:${{env.DEFAULT_TAG}};
         if: success()
 
@@ -57,7 +57,7 @@ jobs:
           URL: ${{ github.event.issue.comments_url }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           AUTHOR: ${{ github.ACTOR }}
-          IMAGE_URL: ${{env.REGISTRY}}/${{env.ORGANIZATION}}/${{env.REPOSITORY}}/${{env.FULL_NAME}}:${{env.DEFAULT_TAG}}
+          IMAGE_URL: ${{env.REGISTRY}}/${{env.REPOSITORY}}/${{env.FULL_NAME}}:${{env.DEFAULT_TAG}}
         run: |
           curl \
             -X POST \
