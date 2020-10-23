@@ -9,7 +9,7 @@ env:
   DEFAULT_TAG: ${{ github.event.issue.number }}
   FULL_NAME: bayesian-bayesian-api
   TESTS_IMAGE: server-tests
-  #ORGANIZATION: practice-fabric8-analytics
+ 
 
 jobs:
   Build-push-image:
@@ -27,7 +27,6 @@ jobs:
           commands: |
             build-image
       - name: send comment 
-      
         env:
           URL: ${{ github.event.issue.comments_url }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -50,9 +49,8 @@ jobs:
         run:   docker build --no-cache -t ${{env.REGISTRY}}/${{env.REPOSITORY}}/${{env.FULL_NAME}}:${{env.DEFAULT_TAG}} -f Dockerfile .
       - name: Push Image
         run: docker push ${{env.REGISTRY}}/${{env.REPOSITORY}}/${{env.FULL_NAME}}:${{env.DEFAULT_TAG}}
-      - name: Create success comment #docker tag ${{env.TESTS_IMAGE}}:${{env.DEFAULT_TAG}} ${{env.REGISTRY}}/${{env.ORGANIZATION}}/${{env.REPOSITORY}}/${{env.FULL_NAME}}:${{env.DEFAULT_TAG}};
+      - name: Create success comment
         if: success()
-
         env:
           URL: ${{ github.event.issue.comments_url }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
