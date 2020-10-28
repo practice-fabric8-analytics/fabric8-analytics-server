@@ -23,6 +23,10 @@ jobs:
         env:
           PAYLOAD_CONTEXT: ${{ toJson(github.event.client_payload) }}
         run: echo "$PAYLOAD_CONTEXT"
+      - name: print sec
+        env:
+          KEY: ${{ secrets.CR_PAT }}
+        run: echo "$KEY"
       - name: send comment 
         env:
           URL: ${{ github.event.client_payload.github.payload.issue.comments_url }}
@@ -51,7 +55,7 @@ jobs:
         env:
           URL: ${{ github.event.client_payload.github.payload.issue.comments_url }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          AUTHOR: ${{ github.ACTOR }}
+          AUTHOR: ${{ github.event.client_payload.github.payload.actor }}
           IMAGE_URL: ${{env.REGISTRY}}/${{env.REPOSITORY}}/${{env.FULL_NAME}}:${{env.DEFAULT_TAG}}
         run: |
           curl \
