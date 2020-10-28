@@ -23,10 +23,6 @@ jobs:
         env:
           PAYLOAD_CONTEXT: ${{ toJson(github.event.client_payload) }}
         run: echo "$PAYLOAD_CONTEXT"
-      - name: print sec
-        env:
-          KEY: ${{ secrets.CR_PAT }}
-        run: echo "$KEY"
       - name: send comment 
         env:
           URL: ${{ github.event.client_payload.github.payload.issue.comments_url }}
@@ -42,7 +38,7 @@ jobs:
         uses: docker/login-action@v1
         with:
           registry: ghcr.io
-          username: ${{ github.event.client_payload.github.payload.actor }}
+          username: ${{ github.event.client_payload.github.actor }}
           password: ${{ secrets.CR_PAT }}
       - name: Run Test
         run: bash qa/runtest.sh 
@@ -55,7 +51,7 @@ jobs:
         env:
           URL: ${{ github.event.client_payload.github.payload.issue.comments_url }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          AUTHOR: ${{ github.event.client_payload.github.payload.actor }}
+          AUTHOR: ${{ github.event.client_payload.github.actor }}
           IMAGE_URL: ${{env.REGISTRY}}/${{env.REPOSITORY}}/${{env.FULL_NAME}}:${{env.DEFAULT_TAG}}
         run: |
           curl \
