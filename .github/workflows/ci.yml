@@ -1,6 +1,6 @@
 name: CRDA Build and Push Image 
 on:
-  workflow_dispatch:
+  repository_dispatch:
     types: [Build-image-command]
 
 env:
