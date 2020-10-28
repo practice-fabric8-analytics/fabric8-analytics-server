@@ -1,14 +1,12 @@
 name: CRDA Build and Push Image 
 on:
-  pull_request_target:
-    branches: [master]
-  #repository_dispatch:
-  #  types: [Build-image-command]
+  repository_dispatch:
+    types: [Build-image-command]
 
 env:
   REGISTRY:  ghcr.io
-  REPOSITORY: ${{ github.repository }}
-  DEFAULT_TAG: ${{ github.event.issue.number }}
+  REPOSITORY: ${{ github.event.client_payload.github.payload.repository.full_name }}
+  DEFAULT_TAG: ${{ github.event.client_payload.github.payload.issue.number }}
   FULL_NAME: bayesian-bayesian-api
   TESTS_IMAGE: server-tests
  
@@ -19,11 +17,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: |
-          git fetch origin +refs/pull/${{ github.event.issue.number }}/merge
+          git fetch origin +refs/pull/${{ github.event.client_payload.github.payload.issue.number }}/merge
           git checkout FETCH_HEAD
       - name: send comment 
         env:
-          URL: ${{ github.event.issue.comments_url }}
+          URL: ${{ github.event.client_payload.github.payload.issue.comments_url }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           curl \
@@ -36,7 +34,7 @@ jobs:
         uses: docker/login-action@v1
         with:
           registry: ghcr.io
-          username: ${{ github.ACTOR }}
+          username: ${{ github.event.client_payload.github.payload.actor }}
           password: ${{ secrets.CR_PAT }}
       - name: Run Test
         run: bash qa/runtest.sh 
@@ -47,7 +45,7 @@ jobs:
       - name: Create success comment
         if: success()
         env:
-          URL: ${{ github.event.issue.comments_url }}
+          URL: ${{ github.event.client_payload.github.payload.issue.comments_url }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           AUTHOR: ${{ github.ACTOR }}
           IMAGE_URL: ${{env.REGISTRY}}/${{env.REPOSITORY}}/${{env.FULL_NAME}}:${{env.DEFAULT_TAG}}
@@ -63,7 +61,7 @@ jobs:
         if: failure()
 
         env:
-          URL: ${{ github.event.issue.comments_url }}
+          URL: ${{ github.event.client_payload.github.payload.issue.comments_url }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           curl \
