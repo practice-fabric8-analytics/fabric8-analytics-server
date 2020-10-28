@@ -19,6 +19,10 @@ jobs:
       - run: |
           git fetch origin +refs/pull/${{ github.event.client_payload.github.payload.issue.number }}/merge
           git checkout FETCH_HEAD
+      - name: Dump the client payload context
+        env:
+          PAYLOAD_CONTEXT: ${{ toJson(github.event.client_payload) }}
+        run: echo "$PAYLOAD_CONTEXT"
       - name: send comment 
         env:
           URL: ${{ github.event.client_payload.github.payload.issue.comments_url }}
