@@ -1,7 +1,9 @@
 name: CRDA Build and Push Image 
 on:
-  repository_dispatch:
-    types: [Build-image-command]
+  pull_request_target:
+    branches: [master]
+  #repository_dispatch:
+  #  types: [Build-image-command]
 
 env:
   REGISTRY:  ghcr.io
