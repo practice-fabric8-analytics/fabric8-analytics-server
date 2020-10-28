@@ -1,7 +1,7 @@
 name: CRDA Build and Push Image 
 on:
-  issue_comment:
-    types: [created]
+  workflow_dispatch:
+    types: [Build-image-command]
 
 env:
   REGISTRY:  ghcr.io
@@ -19,13 +19,6 @@ jobs:
       - run: |
           git fetch origin +refs/pull/${{ github.event.issue.number }}/merge
           git checkout FETCH_HEAD
-      - name: Slash Command Dispatch
-        uses: peter-evans/slash-command-dispatch@v2
-        id: check
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commands: |
-            build-image
       - name: send comment 
         env:
           URL: ${{ github.event.issue.comments_url }}
