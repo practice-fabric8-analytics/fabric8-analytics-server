@@ -1,5 +1,11 @@
 #!/bin/bash
-
+echo "Hello this is branch code"
+echo "Hello this is branch code"
+echo "Hello this is branch code"
+echo "Hello this is branch code"
+echo "Hello this is branch code"
+echo "Hello this is branch code"
+echo "Hello this is branch code"
 SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
 
 pushd "${SCRIPT_DIR}/.." > /dev/null
@@ -92,4 +98,8 @@ docker run -t \
   ${TEST_IMAGE_NAME} /bayesian/hack/exec_tests.sh $@ /bayesian/tests/
 
 echo "Test suite passed \\o/"
+echo "Hello this is branch code"
+echo "Hello this is branch code"
+echo "Hello this is branch code"
+echo "Hello this is branch code"
 popd > /dev/null
